@@ -36,7 +36,10 @@
                         <h3 class="project__heading">{{ project.title }}</h3>
                         <p class="project__text">{{ project.links }}</p>
                     </div>
-                    <div class="project__btn"><i class="fa-solid fa-chevron-right"></i></div>
+                    <div class="project__btn">
+                        <router-link class="project__btn" :to="getProjectDetailsLink(project.id)"><i
+                                class="fa-solid fa-chevron-right"></i></router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,24 +74,26 @@
                     content of a page when lookings at its layouts the points of using.</p>
             </div>
         </div>
-        
+
         <div class="articles">
-            <div v-for="article in getThreeArticles" :key="article.id"  class="article article_small">
+            <div v-for="article in getThreeArticles" :key="article.id" class="article article_small">
 
                 <!-- <SingleArticleComponent :article="article" /> -->
 
                 <!-- <div class="article article_small"> -->
-                    <div class="article__img">
-                        <img :src="article.img" alt="статья">
-                        <p class="article__tag">{{ article.tag }}</p>
-                    </div>
-                    <div class="article__text">
-                        <h2 class="article__heading">{{ article.heading }}</h2>
-                    </div>
-                    <div class="article__block">
-                        <p class="article__date">{{ article.date }}</p>
-                        <div class="article__btn"><i class="fa-solid fa-chevron-right"></i></div>
-                    </div>
+                <div class="article__img">
+                    <img :src="article.img" alt="статья">
+                    <p class="article__tag">{{ article.tag }}</p>
+                </div>
+                <div class="article__text">
+                    <h2 class="article__heading">{{ article.heading }}</h2>
+                </div>
+                <div class="article__block">
+                    <p class="article__date">{{ article.date }}</p>
+                    <!-- <div class="article__btn"><i class="fa-solid fa-chevron-right"></i></div> -->
+                    <router-link class="article__btn" :to="getArticleDetailsLink(article.id)"><i
+                            class="fa-solid fa-chevron-right"></i></router-link>
+                </div>
                 <!-- </div> -->
             </div>
         </div>
@@ -99,25 +104,38 @@
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
 
-    export default {
-        data() {
-            return {
-                banner: require("@/assets/img/index/banner.jpg"),
+export default {
+    data() {
+        return {
+            banner: require("@/assets/img/index/banner.jpg"),
 
-            }
+        }
+    },
+    computed: {
+        ...mapState({
+            projects: (state) => state.projects.slice(0, 4)
         },
-        computed: {
-            ...mapState({
-                projects: (state) => state.projects.slice(0, 4)
-                },
-                'articles'),
-            ...mapGetters(['getThreeArticles']),
-
+            'articles'),
+        ...mapGetters(['getThreeArticles', 'getAllArticles']),
+        // ...mapGetters(['getAllArticles']),
+    },
+    methods: {
+        getProjectDetailsLink(projectNumber) {
+            return `/project/details/${projectNumber}`;
         },
-    // methods: {
-    //     // ...mapMutations(['SET_DATA']),
-    //     ...mapActions(['fetchData']),
-    // },
+        getArticleDetailsLink(articleNumber) {
+            // 02.05.2024
+            // определяем tag у выбранной статьи и меняем его active на значение true, у остальных тегов будет false
+            console.log("articleNumber ", articleNumber);
+            const articleTag = this.getAllArticles[articleNumber].tag;
+            console.log(articleTag);
+            // this.change_article_tag(tag);
+            // март 2024
+            return `/blog/details/${articleNumber}`;
+        },
+        //     // ...mapMutations(['SET_DATA']),
+        //     ...mapActions(['fetchData']),
+    },
     // mounted() {
     //     this.SET_DATA(this.fetchData);
     //     // this.$store.dispatch
@@ -129,7 +147,7 @@ import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
     //     this.$store.dispatch('fetchData');
     // },
 
-    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -400,7 +418,7 @@ import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
     }
 
     &__text {
-        width: 85%;//80%;
+        width: 85%; //80%;
         // margin-bottom: 20px;
     }
 

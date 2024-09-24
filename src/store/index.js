@@ -282,7 +282,7 @@ export default createStore({
       { text: "Living", active: false },
       { text: "Architecture", active: false },
       { text: "Kitchen Planning", active: false },
-      { text: "Bedroom", active: false },
+      { text: "Bathroom", active: false },
     ],
     pageLinks: [
       {

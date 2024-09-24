@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="articles">
+        <div v-if="paginatedArticles.length > 1" class="articles">
             <div v-for="article in paginatedArticles" :key="article.id" class="article article_small">
                 <div class="article__img">
                     <img :src="article.img" alt="статья">
@@ -35,7 +35,7 @@
         <!-- <PaginationComponent /> -->
         <div v-if="totalPages > 1" class="pagination">
             <router-link class="pagination__btn" v-for="pageNumber in totalPages" :key="pageNumber"
-                :to="getPageLink(pageNumber)">
+                :to="getPageLink(pageNumber)" @click="changePageNumberColor">
                 {{ pageNumber }}
             </router-link>
 
@@ -79,10 +79,16 @@ import PaginationComponent from './PaginationComponent.vue';
             return Math.ceil(this.getAllArticles.length / this.itemsPerPage);
         },
         paginatedArticles() {
-            const pageNumber = this.getCurrentPageNumber();
+            let pageNumber = this.getCurrentPageNumber();
+            console.log('pageNumber', pageNumber);
             // this.pageNum = this.getCurrentPageNumber();
-            const startIndex = (pageNumber - 1) * this.itemsPerPage;
-            const endIndex = startIndex + this.itemsPerPage;
+            let startIndex = (pageNumber - 1) * this.itemsPerPage;
+            let endIndex = startIndex + this.itemsPerPage;
+            if (endIndex > this.getAllArticles.length) {
+                endIndex = this.getAllArticles.length;
+            }
+            console.log(startIndex, endIndex);
+            console.log(this.getAllArticles.slice(startIndex, endIndex));            
             return this.getAllArticles.slice(startIndex, endIndex);
         },
     },
@@ -92,6 +98,7 @@ import PaginationComponent from './PaginationComponent.vue';
 
         getCurrentPageNumber() {
             const pageNumberParam = parseInt(this.$route.params.pageNumber);
+            console.log('pageNumberParam', pageNumberParam);
             return isNaN(pageNumberParam) || pageNumberParam < 1
                 ? 1
                 : pageNumberParam;
@@ -109,6 +116,21 @@ import PaginationComponent from './PaginationComponent.vue';
             // март 2024
             return `/blog/details/${articleNumber}`;
         },
+        colorFirstPaginationNumber() {
+            // закрашиваем номер текущей страницы
+            const firstPageNumber = document.querySelector('.pagination__btn');
+            console.log('firstPageNumber', firstPageNumber);
+            firstPageNumber.classList.add('pagination__btn_active');
+        },
+        changePageNumberColor() {
+            const paginationNumbers = document.querySelectorAll('.pagination__btn');
+            paginationNumbers.forEach(pageNum => {
+                pageNum.classList.remove('pagination__btn_active');
+            });
+        },
+    },
+    mounted() {
+        this.colorFirstPaginationNumber();
     },
     }
 </script>
@@ -295,5 +317,10 @@ import PaginationComponent from './PaginationComponent.vue';
             border: 1px solid #F4F0EC;
         }
     }
+}
+.router-link-active {
+    //router-link-exact-active 
+    background: #F4F0EC;
+    border: 1px solid #F4F0EC;
 }
 </style>

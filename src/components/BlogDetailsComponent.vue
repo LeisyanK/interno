@@ -3,7 +3,7 @@
         <img :src="blogDetailsBanner" alt="баннер">
     </div>
     <section class="blog_flex center">
-        <div class="blog-details">
+        <div v-if="getFilteredArticles.length > 1" class="blog-details">
             <div v-for="article in getFilteredArticles" :key="article.id" class="blog-details__article">
                 <div class="blog-details__text">
                     <h2 class="blog-details__heading">{{ article.heading }}</h2>
@@ -24,6 +24,9 @@
                     </p>
                 </div>
             </div>
+        </div>
+        <div v-else class="blog-details">
+            <h2 class="blog-details__heading">There are no articles.</h2>
         </div>
         <BlogCategoriesComponent />
         <!-- <div class="sidebar">

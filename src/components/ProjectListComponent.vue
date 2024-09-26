@@ -96,6 +96,10 @@ import Paginate from "vuejs-paginate-next"
                this.pagination_offset = (this.itemsPerPage * pageNum) - this.itemsPerPage;
                if (pageNum === 1) {
                    this.$router.push('/project/');
+
+                //    const firstPageNumber = document.querySelector('.pagination__btn');
+                //    console.log('firstPageNumber', firstPageNumber);
+                //    firstPageNumber.classList.add('pagination__btn_active');
                } else {
                    this.$router.push(`/project/?page=${pageNum}`)
                }

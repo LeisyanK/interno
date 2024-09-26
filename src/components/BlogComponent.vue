@@ -110,7 +110,7 @@ import PaginationComponent from './PaginationComponent.vue';
             // 02.05.2024
             // определяем tag у выбранной статьи и меняем его active на значение true, у остальных тегов будет false
             console.log("articleNumber ", articleNumber);
-            const articleTag = this.getAllArticles[articleNumber].tag;
+            const articleTag = this.getAllArticles[articleNumber-1].tag;
             console.log(articleTag);
             // this.change_article_tag(tag);
             // март 2024

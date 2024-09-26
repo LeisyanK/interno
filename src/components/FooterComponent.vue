@@ -9,6 +9,8 @@
             <div class="icons">
                 <i class="fa-brands fa-twitter"></i>
                 <i class="fa-brands fa-linkedin-in"></i>
+                <a href="https://www.figma.com/design/okdYD45Tj2JpKsNASccUmf/Interior-Design-Webflow-Website-Template"><i
+                        class="fa-brands fa-figma"></i></a>
             </div>
         </div>
         <div class="pages">
@@ -127,6 +129,7 @@ export default {
 
     .pages__link {
         display: block;
+        // padding: 12px 12px 12px 0;
     }
 }
 </style>

@@ -13,19 +13,26 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
     export default {
         computed: {
-            ...mapState(['projectTags']),
+            // ...mapState(['projectTags']),
             ...mapGetters(['getProjectTags']),
         },
         methods: {
             ...mapActions(['changeTag']),
             toFirstPage() {
+                try{
                 // this.$router.push({ name: 'page', params: { pageId: '1' } })
-                this.$router.push('/project/') // при переключении тега переходим на первую страницу пагинации
+                this.$router.push('/project/1') // при переключении тега переходим на первую страницу пагинации
                 // покрасим первую кнопку пагинации
-                const firstPageNumber = document.querySelector('.pagination__btn');
+                // const firstPageNumber = document.querySelector('.pagination__btn');
                 // console.log('firstPageNumber', firstPageNumber);
-                firstPageNumber.classList.add('pagination__btn_active');
+                // firstPageNumber.classList.add('pagination__btn_active');
+                } catch (e) {
+                    console.log("Нет блока пагинации ", e);
+                }
             },
+        },
+        updated() {
+            // this.toFirstPage();
         }
         
     }

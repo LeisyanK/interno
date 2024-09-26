@@ -1,9 +1,11 @@
 <template>
     <div class="sidebar">
-        <h3 class="sidebar__heading">Tags</h3>
-        <div class="sidebar__tags">
-            <div class="tag" v-for="tag in getArticleTags" :key="tag.id" :class="{ active: tag.active }"
-                @click="change_article_tag(tag)">{{ tag.text }}</div>
+        <div class="stickyBlock">
+            <h3 class="sidebar__heading">Tags</h3>
+            <div class="sidebar__tags">
+                <div class="tag" v-for="tag in getArticleTags" :key="tag.id" :class="{ active: tag.active }"
+                    @click="change_article_tag(tag)">{{ tag.text }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -25,8 +27,7 @@ import { mapActions, mapState, mapGetters } from 'vuex';
 @import '@/assets/scss/style.scss';
 
 .sidebar {
-    position: sticky;
-    top: 20%;
+    position: relative;
     width: 30%;
     margin-left: 4%;
     margin-bottom: 10%;
@@ -48,6 +49,10 @@ import { mapActions, mapState, mapGetters } from 'vuex';
         gap: 10px;
         flex-wrap: wrap;
     }
+}
+.stickyBlock {
+    position: sticky;
+    top: 20%;
 }
 .tag {
     border-radius: 10px;
